@@ -136,6 +136,7 @@ TreeNode * assign_stmt(void)
       match(ASSIGN);
       if (t != NULL) t->child[0] = exp();
   }
+  else if (token == PE)
   {
       match(PE);
       if (t != NULL) t->child[0] = eq_stmt(t->attr.name);
