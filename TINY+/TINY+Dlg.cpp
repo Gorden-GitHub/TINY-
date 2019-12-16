@@ -235,7 +235,6 @@ void CTINYDlg::OnBnClickedButtonCreate()
 	}
 	file.close();
 	create_tree("temp.out", "syntaxtree.out");
-	MessageBox(L"生成成功");
 }
 
 

@@ -27,6 +27,7 @@ static TreeNode * factor(void);
 static TreeNode* while_stmt(void);
 static TreeNode* dowhile_stmt(void);
 static TreeNode* for_stmt(void);
+static TreeNode* eq_stmt(char* name);
 
 static void syntaxError(char * message)
 { fprintf(listing,"\n>>> ");
@@ -130,9 +131,27 @@ TreeNode * assign_stmt(void)
   if ((t!=NULL) && (token==ID))
     t->attr.name = copyString(tokenString);
   match(ID);
-  match(ASSIGN);
-  if (t!=NULL) t->child[0] = exp();
+  if (token == ASSIGN)
+  {
+      match(ASSIGN);
+      if (t != NULL) t->child[0] = exp();
+  }
+  {
+      match(PE);
+      if (t != NULL) t->child[0] = eq_stmt(t->attr.name);
+  }
   return t;
+}
+
+TreeNode* eq_stmt(char* name)
+{
+    TreeNode* id = newExpNode(IdK);
+    id->attr.name = name;
+    TreeNode* op = newExpNode(OpK);
+    op->child[0] = id;
+    op->attr.op = PLUS;
+    op->child[1] = exp();
+    return op;
 }
 
 TreeNode * read_stmt(void)
@@ -265,28 +284,33 @@ TreeNode* for_stmt(void)
 {
 	TreeNode* t = newStmtNode(ForK);
     match(FOR);
+    if ((t != NULL) && (token == ID))
+    {
+        t->attr.name = copyString(tokenString);
+    }
+    match(ID);
+    match(ASSIGN);
     if (t != NULL)
     {
-        t->child[0] = assign_stmt();
+        t->child[0] = simple_exp();
     }
     if (token == TO)
     {
         match(TO);
-        if (t != NULL)
-        {
-            t->child[1] = simple_exp();
-        }
     }
-    else
+    else if (token == DOWNTO)
     {
         match(DOWNTO);
-        if (t != NULL)
-        {
-            t->child[1] = simple_exp();
-        }
+    }
+    if (t != NULL)
+    {
+        t->child[1] = simple_exp();
     }
     match(DO);
-    if (t != NULL) t->child[2] = stmt_sequence();
+    if (t != NULL)
+    {
+        t->child[2] = stmt_sequence();
+    }
     match(ENDDO);
 	return t;
 }

@@ -1,0 +1,12 @@
+{ Sample program
+in TINY language
+computes factorial
+}
+read x; { input an integer }
+if (0<x) { don't compute if x <= 0 }
+fact := 1;
+do
+    fact := fact * x;
+    x := x - 1
+while ( 0<x );
+write fact; { output factorial of x }

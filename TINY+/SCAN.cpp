@@ -181,6 +181,7 @@ TokenType_T getToken(void)
                save = FALSE;
                currentToken = ERROR_T;
            }
+           break;
        }
        case INNUM:
          if (!isdigit(c))

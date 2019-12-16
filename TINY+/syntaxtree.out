@@ -1,0 +1,26 @@
+
+TINY Syntax Analyse!
+
+>>> Syntax error at line 22: unexpected token -> reserved word: enddo
+
+>>> Syntax error at line 23: unexpected token -> reserved word: write
+      
+>>> Syntax error at line 24: unexpected token -> EOF
+
+>>> Syntax error at line 25: unexpected token -> EOF
+      
+TINY Syntax tree:
+  Read: x
+  If
+    Op: <
+      Const: 0
+      Id: x
+    For
+      Id: x
+      Const: 1
+      Assign to: fact
+        Op: *
+          Id: fact
+          Id: x
+      Write
+        Id: fact
