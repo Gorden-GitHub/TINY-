@@ -1,0 +1,7 @@
+{ Sample program
+in TINY language
+computes factorial
+}
+read x; { input an integer }
+x += 1;
+write x; { output factorial of x }
